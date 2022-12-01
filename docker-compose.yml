@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+
+  agl-digital-traceability-customer-api:
+    container_name: local-observability-test
+    image: local/observability-test:1.0.0
+    environment:
+      - CORECLR_NEWRELIC_HOME=/app/newrelic
+      - CORECLR_ENABLE_PROFILING=1
+      - CORECLR_PROFILER={36032161-FFC0-4B61-B559-F6C5D41BAE5A}
+      - CORECLR_PROFILER_PATH=/app/newrelic/NewRelic.Profiler.dll
+      - CORECLR_PROFILER_PATH_32=/app/newrelic/x86/NewRelic.Profiler.dll
+      - CORECLR_PROFILER_PATH_64=/app/newrelic/NewRelic.Profiler.dll
+      - NEW_RELIC_APP_NAME=aks-observability-test
+      - NEW_RELIC_LICENSE_KEY=<Replace-With-Your-Key>
+      - NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+      - NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=false
+    build:
+      context: .
+      dockerfile: Aks.Observability/Dockerfile
+    ports:
+      - 50001:80
+  
